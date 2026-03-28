@@ -2,22 +2,22 @@ import React, { useState, useEffect, useCallback } from "react";
 
 const slides = [
   {
-    image: "/images/slider1.png",
+    image: "/images/homeimg1.jpg",
     title: "Prepare For Your Future",
     subtitle: "Begin your journey to civil services excellence",
   },
   {
-    image: "/images/slider2.png",
+    image: "/images/homeimg2.jpg",
     title: "Expert Faculty Guidance",
     subtitle: "Learn from India's most experienced educators",
   },
   {
-    image: "/images/slider3.png",
+    image: "/images/homeimg3.jpg",
     title: "Success Starts Here",
     subtitle: "Join thousands of successful candidates",
   },
   {
-    image: "/images/slider4.png",
+    image: "/images/homeimg4.jpg",
     title: "Join India's Top Achievers",
     subtitle: "Your path to becoming a civil servant",
   },

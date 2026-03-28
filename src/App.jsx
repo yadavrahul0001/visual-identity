@@ -7,11 +7,14 @@ import Toppers from "./components/Toppers";
 import SuccessJourney from "./components/SuccessJourney";
 import FAQ from "./components/FAQ";
 import Articles from "./components/Articles";
+import CustomCursor from "./components/CustomCursor";
 
 const App = () => {
   return (
     <>
+      <CustomCursor />
       <Navbar />
+
       <HomePage />
       <Courses />
       <Toppers />

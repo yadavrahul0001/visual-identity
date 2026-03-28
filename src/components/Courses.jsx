@@ -1,22 +1,30 @@
 import React from 'react'
 
+const courseData = [
+  { title: "NCERT", image: "/images/course_ncert.png" },
+  { title: "NCERT BASIC", image: "/images/course_ncert.png" },
+  { title: "UPSC", image: "/images/course_upsc.png" },
+  { title: "PCS", image: "/images/course_pcs.png" },
+  { title: "SSC", image: "/images/course_ssc.png" },
+  { title: "NEET", image: "/images/course_neet.png" },
+  { title: "JEE", image: "/images/course_jee.png" },
+  { title: "JUDICIARY", image: "/images/course_pcs.png" },
+  { title: "NCERT ADV", image: "/images/course_jee.png" },
+];
 
-const Course = ({ title, id }) => {
+const Course = ({ title, image }) => {
   return (
     <div className='course'>
       <div className='courseImage'>
-        <h1>{id}</h1>
+        <img src={image} alt={title} />
       </div>
       <div className='courseDescription'>
         <p>{title}</p>
         <button className='courseButton'>ENROLL NOW</button>
       </div>
-      
-      
     </div>
   )
 }
-
 
 const Courses = () => {
   return (
@@ -24,15 +32,9 @@ const Courses = () => {
       <div className="courses">
         <h2 className="courses-heading">OUR COURSES</h2>
         <div className='coursesGrids'>
-          <Course title="Course 1" id="1" />
-          <Course title="Course 2" id="2" />
-          <Course title="Course 3" id="3" />
-          <Course title="Course 4" id="4" />
-          <Course title="Course 5" id="5" />
-          <Course title="Course 6" id="6" />
-          <Course title="Course 7" id="7" />
-          <Course title="Course 8" id="8" />
-          <Course title="Course 9" id="9" />
+          {courseData.map((course, index) => (
+            <Course key={index} title={course.title} image={course.image} />
+          ))}
         </div>
       </div>
     </>
