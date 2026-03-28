@@ -1,25 +1,23 @@
 import React from "react";
-import Page1 from "./components/Page1";
-import Page2 from "./components/Page2";
 import Navbar from "./components/Navbar";
-import Page3 from "./components/Page3";
-import Page4 from "./components/Page4";
-
-import Page6 from "./components/Page6";
 import Footer from "./components/Footer";
 import HomePage from "./components/HomePage";
+import Courses from "./components/Courses";
+import Toppers from "./components/Toppers";
+import SuccessJourney from "./components/SuccessJourney";
+import FAQ from "./components/FAQ";
+import Articles from "./components/Articles";
 
 const App = () => {
   return (
     <>
       <Navbar />
       <HomePage />
-      {/* <Page1 /> */}
-      <Page2 />
-      <Page3 />
-      <Page4 />
-      <Page6 />
-      
+      <Courses />
+      <Toppers />
+      <SuccessJourney />
+      <Articles />
+      <FAQ />
       <Footer />
     </>
   );
