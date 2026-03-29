@@ -5,88 +5,62 @@ const toppersData = [
     name: "SUNNY GUPTA",
     rank: "RANK-148(IPS)",
     exam: "UPSC-2019",
-    category: "Prelims Test Series, Mains Test Series",
     image: "/images/topper1.png",
-    tag: "",
   },
   {
     name: "RINKU LATHAR",
     rank: "RANK-232(IPS)",
     exam: "UPSC-2019",
-    category: "Prelims Test Series",
     image: "/images/topper2.png",
-    tag: "",
   },
   {
     name: "SANDEEP PATEL",
     rank: "RANK-464(IPS)",
     exam: "UPSC-2019",
-    category: "Mains Test Series",
     image: "/images/topper3.png",
-    tag: "",
   },
   {
     name: "DEEPAK KUMAR",
     rank: "RANK-769",
     exam: "UPSC-2019",
-    category: "Prelims Test Series",
     image: "/images/topper4.png",
-    tag: "",
   },
   {
     name: "RITU RANI",
     rank: "RANK-34(SDM)",
     exam: "UPPSC-2019",
-    category: "Prelims Test Series, Mains Test Series",
     image: "/images/topper5.png",
-    tag: "",
   },
   {
     name: "NISHANT TIWARI",
     rank: "RANK-44(SDM)",
     exam: "UPPSC-2020",
-    category: "Foundation Course",
     image: "/images/topper6.png",
-    tag: "General Studies",
   },
 ];
 
-const categories = [
-  "All",
-  "General Studies",
-  "Optional",
-  "Module Courses",
-  "Test Series",
-];
-
 const Toppers = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
   const [startIndex, setStartIndex] = useState(0);
-
-  const filtered =
-    activeCategory === "All"
-      ? toppersData
-      : toppersData.filter((t) => t.tag === activeCategory);
 
   const visibleCount = 3;
 
   const next = useCallback(() => {
     setStartIndex((prev) =>
-      prev + 1 >= filtered.length ? 0 : prev + 1
+      prev + 1 >= toppersData.length ? 0 : prev + 1
     );
-  }, [filtered.length]);
+  }, []);
 
   const prev = useCallback(() => {
     setStartIndex((prev) =>
-      prev - 1 < 0 ? filtered.length - 1 : prev - 1
+      prev - 1 < 0 ? toppersData.length - 1 : prev - 1
     );
-  }, [filtered.length]);
+  }, []);
 
   const getVisibleToppers = () => {
     const result = [];
-    for (let i = 0; i < Math.min(visibleCount, filtered.length); i++) {
-      const idx = (startIndex + i) % filtered.length;
-      result.push({ ...filtered[idx], originalIndex: idx });
+    for (let i = 0; i < Math.min(visibleCount, toppersData.length); i++) {
+      const idx = (startIndex + i) % toppersData.length;
+      result.push({ ...toppersData[idx], originalIndex: idx });
     }
     return result;
   };
@@ -103,9 +77,6 @@ const Toppers = () => {
             Meet the brilliant minds who achieved top ranks in UPSC Civil
             Services Examination with guidance from Ravindra's IAS Academy.
           </p>
-          <a href="#" className="toppers-list-btn" id="toppers-list-link">
-            Toppers List <span>→</span>
-          </a>
         </div>
 
         {/* Carousel */}
@@ -130,7 +101,6 @@ const Toppers = () => {
                   <p className="topper-exam">
                     {topper.rank} – {topper.exam}
                   </p>
-                  <p className="topper-category">({topper.category})</p>
                 </div>
               </div>
             ))}
@@ -155,23 +125,6 @@ const Toppers = () => {
               ›
             </button>
           </div>
-        </div>
-
-        {/* Category Tabs */}
-        <div className="toppers-categories">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`category-tab ${activeCategory === cat ? "active" : ""}`}
-              onClick={() => {
-                setActiveCategory(cat);
-                setStartIndex(0);
-              }}
-              id={`category-${cat.replace(/\s/g, "-").toLowerCase()}`}
-            >
-              {cat}
-            </button>
-          ))}
         </div>
       </div>
     </section>
