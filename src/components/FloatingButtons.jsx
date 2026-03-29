@@ -30,7 +30,7 @@ const FloatingButtons = () => {
     <div className={`floating-btns ${visible ? "floating-visible" : "floating-hidden"}`}>
       {/* WhatsApp */}
       <a
-        href="https://wa.me/919953101176"
+        href=""
         target="_blank"
         rel="noopener noreferrer"
         className="floating-btn floating-whatsapp"
@@ -44,7 +44,7 @@ const FloatingButtons = () => {
 
       {/* Phone */}
       <a
-        href="tel:+919953101176"
+        href=""
         className="floating-btn floating-phone"
         aria-label="Call us"
         id="floating-phone"

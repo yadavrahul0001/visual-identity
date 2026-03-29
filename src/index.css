@@ -998,17 +998,44 @@ main {
 }
 
 @media (max-width: 900px) {
+  /* Switch to stacked layout: image on top, content below */
   .hero-section {
     min-height: auto;
-    height: calc(100vh - 13vh);
+    height: auto;
     margin-top: 13vh;
+    flex-direction: column;
   }
 
+  /* Image slider becomes a visible block at the top */
+  .hero-slider {
+    position: relative;
+    width: 100%;
+    height: 45vw;
+    min-height: 220px;
+    max-height: 350px;
+    flex-shrink: 0;
+  }
+
+  .hero-slide-img {
+    object-fit: cover;
+  }
+
+  /* Softer overlay so image is clearly visible */
+  .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 15, 30, 0.1) 0%,
+      rgba(10, 15, 30, 0.45) 100%
+    );
+  }
+
+  /* Content sits below the image */
   .hero-content {
     flex-direction: column;
-    justify-content: center;
-    padding: 2rem;
-    gap: 2rem;
+    justify-content: flex-start;
+    padding: 1.8rem 2rem;
+    gap: 1.5rem;
+    background: linear-gradient(180deg, #0a0f1e 0%, #111827 100%);
   }
 
   .hero-text-wrapper {
@@ -1016,11 +1043,12 @@ main {
   }
 
   .hero-title {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
   }
 
   .hero-subtitle {
     font-size: 1rem;
+    max-width: 100%;
   }
 
   .hero-slide-nav {
@@ -1061,18 +1089,36 @@ main {
   }
 
   .hero-progress {
+    position: relative;
     bottom: auto;
-    top: 0;
+    top: auto;
   }
 }
 
 @media (max-width: 600px) {
+  .hero-section {
+    margin-top: 12vh;
+  }
+
+  .hero-slider {
+    height: 50vw;
+    min-height: 200px;
+    max-height: 300px;
+  }
+
+  .hero-content {
+    padding: 1.5rem 1.2rem;
+    gap: 1.2rem;
+  }
+
   .hero-title {
-    font-size: 1.9rem;
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
   }
 
   .hero-subtitle {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
   }
 
   .hero-cta-group {
@@ -1088,15 +1134,6 @@ main {
     padding: 14px 24px;
   }
 
-  .hero-section {
-    margin-top: 12vh;
-    height: calc(100vh - 12vh);
-  }
-
-  .hero-content {
-    padding: 1.5rem 1.2rem;
-  }
-
   .hero-stat-value {
     font-size: 1.2rem;
   }
@@ -1108,11 +1145,18 @@ main {
   .hero-badge {
     font-size: 0.75rem;
     padding: 6px 14px;
+    margin-bottom: 0.8rem;
   }
 
   .hero-arrow {
     width: 36px;
     height: 36px;
+  }
+
+  .hero-trust {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }
 
@@ -1253,6 +1297,7 @@ main {
   margin: 0 0 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
