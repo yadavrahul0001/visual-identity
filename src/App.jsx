@@ -17,6 +17,7 @@ import TestSeriesDetail from "./components/TestSeriesDetail";
 import StudyMaterial from "./components/StudyMaterial";
 import CurrentAffairs from "./components/CurrentAffairs";
 import FloatingButtons from "./components/FloatingButtons";
+import ContactUs from "./components/ContactUs";
 
 const MainPage = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/test-series/:slug" element={<TestSeriesDetail />} />
         <Route path="/study-material" element={<StudyMaterial />} />
         <Route path="/current-affairs" element={<CurrentAffairs />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
       <FloatingButtons />
     </Router>
