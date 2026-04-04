@@ -272,31 +272,48 @@ const features = [
   },
 ];
 
+const newsUpdates = [
+  { type: "selection", icon: "🏆", text: "Rajesh Kumar selected in UPSC CSE 2024 — AIR 42", time: "2 days ago" },
+  { type: "batch", icon: "📚", text: "New UPSC Prelims 2026 Batch starting 15th April", time: "New" },
+  { type: "course", icon: "🎓", text: "MPPSC Mains Crash Course now available — Enroll today", time: "3 days ago" },
+  { type: "selection", icon: "🏆", text: "Priya Sharma selected in MPPSC 2024 — Rank 7", time: "5 days ago" },
+  { type: "result", icon: "📊", text: "95% of our students cleared Prelims in first attempt", time: "This week" },
+  { type: "batch", icon: "📚", text: "SSC CGL 2026 Foundation Batch — Limited seats left", time: "New" },
+  { type: "selection", icon: "🏆", text: "Amit Verma selected in Judiciary Services 2024", time: "1 week ago" },
+  { type: "course", icon: "🎓", text: "JEE Advanced 2026 Test Series launched — Register now", time: "4 days ago" },
+];
+
+const heroOffer = {
+  title: "UPSC Foundation 2026",
+  originalPrice: "₹1,25,000",
+  offerPrice: "₹89,999",
+  discount: "28% OFF",
+  highlights: ["Complete GS + CSAT", "Interview Guidance", "Test Series Included"],
+  badge: "Most Popular",
+};
+
 const HomePage = () => {
   const [showCounselling, setShowCounselling] = useState(false);
   const [visibleFeatures, setVisibleFeatures] = useState(new Set());
-  const [heroSlide, setHeroSlide] = useState(0);
+  const [activeNews, setActiveNews] = useState(0);
   const [featureDetail, setFeatureDetail] = useState(null);
   const featuresRef = useRef(null);
-  const heroSlideTimerRef = useRef(null);
-
-  // Slides shown in the hero card slider (pick 3 features to showcase)
-  const heroCards = [features[0], features[1], features[3], features[4], features[6]];
+  const newsTimerRef = useRef(null);
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Auto-rotate hero feature cards
-  const nextHeroSlide = useCallback(() => {
-    setHeroSlide((prev) => (prev + 1) % heroCards.length);
-  }, [heroCards.length]);
+  // Auto-rotate news updates
+  const nextNews = useCallback(() => {
+    setActiveNews((prev) => (prev + 1) % newsUpdates.length);
+  }, []);
 
   useEffect(() => {
-    heroSlideTimerRef.current = setInterval(nextHeroSlide, 3500);
-    return () => clearInterval(heroSlideTimerRef.current);
-  }, [nextHeroSlide]);
+    newsTimerRef.current = setInterval(nextNews, 3000);
+    return () => clearInterval(newsTimerRef.current);
+  }, [nextNews]);
 
   // Intersection Observer for feature cards
   useEffect(() => {
@@ -320,6 +337,23 @@ const HomePage = () => {
 
   // Close feature detail
   const closeFeatureDetail = () => setFeatureDetail(null);
+
+  // Countdown timer state
+  const [countdown, setCountdown] = useState({ days: 3, hours: 14, mins: 27, secs: 45 });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        let { days, hours, mins, secs } = prev;
+        secs--;
+        if (secs < 0) { secs = 59; mins--; }
+        if (mins < 0) { mins = 59; hours--; }
+        if (hours < 0) { hours = 23; days--; }
+        if (days < 0) { days = 0; hours = 0; mins = 0; secs = 0; }
+        return { days, hours, mins, secs };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <>
@@ -408,44 +442,65 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Right: Feature Card Slider */}
+          {/* Right: Combined Info + Offer Card */}
           <div className="hp-hero-right">
-            <div className="hp-hero-slider-wrap">
-              <div className="hp-hero-slider-label">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
-                What Sets Us Apart
-              </div>
-              <div className="hp-hero-cards-stack">
-                {heroCards.map((card, i) => {
-                  const offset = ((i - heroSlide) % heroCards.length + heroCards.length) % heroCards.length;
-                  const isActive = offset === 0;
-                  const isNext = offset === 1;
-                  const isPrev = offset === heroCards.length - 1;
-                  return (
-                    <div
-                      key={i}
-                      className={`hp-hero-fcard ${isActive ? "hp-hero-fcard-active" : ""} ${isNext ? "hp-hero-fcard-next" : ""} ${isPrev ? "hp-hero-fcard-prev" : ""} ${offset > 1 && offset < heroCards.length - 1 ? "hp-hero-fcard-hidden" : ""}`}
-                    >
-                      <div className="hp-hero-fcard-icon" style={{ background: `${card.color}15`, color: card.color }}>
-                        {card.icon}
-                      </div>
-                      <h4 className="hp-hero-fcard-title">{card.title}</h4>
-                      <p className="hp-hero-fcard-desc">{card.description}</p>
-                      <div className="hp-hero-fcard-bar" style={{ background: card.color }}></div>
+            <div className="hp-right-card">
+              {/* News Ticker Section */}
+              <div className="hp-rc-news">
+                <div className="hp-rc-news-header">
+                  <span className="hp-rc-live-dot"></span>
+                  <span>Live Updates</span>
+                </div>
+                <div className="hp-rc-news-ticker">
+                  {newsUpdates.map((item, i) => (
+                    <div key={i} className={`hp-rc-news-item ${i === activeNews ? "hp-rc-news-active" : ""}`}>
+                      <span className="hp-rc-emoji">{item.icon}</span>
+                      <span className="hp-rc-news-text">{item.text}</span>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
-              {/* Slider dots */}
-              <div className="hp-hero-slider-dots">
-                {heroCards.map((_, i) => (
-                  <button
-                    key={i}
-                    className={`hp-hero-sdot ${i === heroSlide ? "hp-hero-sdot-active" : ""}`}
-                    onClick={() => setHeroSlide(i)}
-                    aria-label={`Feature ${i + 1}`}
-                  />
-                ))}
+
+              {/* Divider */}
+              <div className="hp-rc-divider"></div>
+
+              {/* Offer Section */}
+              <div className="hp-rc-offer">
+                <div className="hp-rc-offer-top">
+                  <span className="hp-rc-offer-badge">🔥 Limited Time Offer</span>
+                  <span className="hp-rc-offer-discount">{heroOffer.discount}</span>
+                </div>
+                <h4 className="hp-rc-offer-title">{heroOffer.title}</h4>
+                <div className="hp-rc-offer-pricing">
+                  <span className="hp-rc-price-old">{heroOffer.originalPrice}</span>
+                  <span className="hp-rc-price-new">{heroOffer.offerPrice}</span>
+                </div>
+                <ul className="hp-rc-offer-list">
+                  {heroOffer.highlights.map((h, i) => (
+                    <li key={i}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Compact Countdown */}
+                <div className="hp-rc-countdown">
+                  <span className="hp-rc-cd-label">Ends in</span>
+                  <div className="hp-rc-cd-timer">
+                    <span className="hp-rc-cd-block">{String(countdown.days).padStart(2, "0")}d</span>
+                    <span className="hp-rc-cd-sep">:</span>
+                    <span className="hp-rc-cd-block">{String(countdown.hours).padStart(2, "0")}h</span>
+                    <span className="hp-rc-cd-sep">:</span>
+                    <span className="hp-rc-cd-block">{String(countdown.mins).padStart(2, "0")}m</span>
+                    <span className="hp-rc-cd-sep">:</span>
+                    <span className="hp-rc-cd-block">{String(countdown.secs).padStart(2, "0")}s</span>
+                  </div>
+                </div>
+
+                <button className="hp-rc-enroll" onClick={() => scrollToSection("courses")}>
+                  Enroll Now →
+                </button>
               </div>
             </div>
           </div>
@@ -513,6 +568,8 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+
+
 
       {/* ===== FEATURE DETAIL MODAL ===== */}
       {featureDetail && (
@@ -592,3 +649,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
