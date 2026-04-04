@@ -73,7 +73,7 @@ const CurrentAffairs = () => {
       <section className="ca-hero">
         <div className="ca-hero-content">
           <Link to="/" className="sm-breadcrumb">← Back to Home</Link>
-          <span className="sm-hero-badge" style={{ color: "#dc2626", background: "rgba(220,38,38,0.08)" }}>🗞️ Stay Updated</span>
+          <span className="sm-hero-badge">🗞️ Stay Updated</span>
           <h1 className="sm-hero-title">Current Affairs</h1>
           <p className="sm-hero-desc">
             Stay ahead in your exam preparation with daily, weekly, and monthly current affairs coverage. Our expert analysis connects every news to the UPSC syllabus.

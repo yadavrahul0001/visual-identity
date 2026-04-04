@@ -1,32 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-
-const slides = [
-  {
-    image: "/images/homeimg1.jpg",
-    title: "Shape Your Future in",
-    highlight: "Civil Services",
-    subtitle: "India's most trusted coaching institute with 15+ years of proven excellence in UPSC & State PCS preparation.",
-  },
-  {
-    image: "/images/homeimg2.jpg",
-    title: "Learn from",
-    highlight: "Expert Faculty",
-    subtitle: "Our experienced educators have guided 500+ selections across UPSC, UPPSC, SSC, and Judiciary examinations.",
-  },
-  {
-    image: "/images/homeimg3.jpg",
-    title: "Your Success",
-    highlight: "Starts Here",
-    subtitle: "Comprehensive study material, test series, and personalized mentoring to help you crack any exam.",
-  },
-  {
-    image: "/images/homeimg4.jpg",
-    title: "Join India's Top",
-    highlight: "Achievers",
-    subtitle: "Be part of a community that consistently produces top rankers in India's toughest competitive exams.",
-  },
-];
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import AICounselling from "./AICounselling";
 
 const stats = [
   { value: "15+", label: "Years of Excellence" },
@@ -35,161 +8,586 @@ const stats = [
   { value: "50+", label: "Expert Faculty" },
 ];
 
+const features = [
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+      </svg>
+    ),
+    title: "Interactive NCERT Mind-Maps",
+    description: "Visual learning tools that transform complex NCERT chapters into intuitive, clickable mind-maps for deeper understanding and faster revision.",
+    color: "#7c3aed",
+    detailTitle: "Interactive NCERT Mind-Maps",
+    detailTagline: "Visualize. Connect. Master.",
+    detailContent: [
+      {
+        heading: "How It Works",
+        text: "Our AI-powered mind-mapping engine takes every NCERT chapter (Class 6–12) and converts it into a dynamic, interactive visual map. Each node represents a concept, linked to sub-concepts, examples, and related topics across subjects."
+      },
+      {
+        heading: "Key Capabilities",
+        bullets: [
+          "Clickable nodes that expand into detailed explanations, diagrams, and examples",
+          "Cross-subject linking — see how History connects to Geography, Polity to Economics",
+          "Color-coded branches for easy visual distinction between themes",
+          "Bookmark and annotate nodes with your own notes",
+          "Revision mode: Collapsed maps that test your recall before expanding"
+        ]
+      },
+      {
+        heading: "Student Impact",
+        stats: [
+          { value: "3x", label: "Faster revision" },
+          { value: "85%", label: "Better retention" },
+          { value: "12K+", label: "Maps created" }
+        ]
+      }
+    ]
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
+      </svg>
+    ),
+    title: '"7-5-3" Answer Writing Simulator',
+    description: "Our proprietary framework trains you to write 7-mark, 5-mark, and 3-mark answers with precision, structure, and examiner-approved formatting.",
+    color: "#0369a1",
+    detailTitle: '"7-5-3" Answer Writing Simulator',
+    detailTagline: "Write Like a Topper. Score Like One.",
+    detailContent: [
+      {
+        heading: "The Framework",
+        text: "Our 7-5-3 methodology is designed around UPSC marking patterns. You learn exactly how much to write, what structure to follow, and how to maximize marks for each answer length — eliminating guesswork entirely."
+      },
+      {
+        heading: "How It Works",
+        bullets: [
+          "7-Mark Answers: Introduction → 3-4 analytical body points → Conclusion → Diagram/Map",
+          "5-Mark Answers: Crisp intro → 2-3 substantive points → Concise conclusion",
+          "3-Mark Answers: Direct definition → Key facts → One-line summary wrap-up",
+          "AI evaluates your answer for structure, content depth, keyword usage, and presentation",
+          "Compare your answer side-by-side with model answers from toppers"
+        ]
+      },
+      {
+        heading: "Results",
+        stats: [
+          { value: "40%", label: "Score improvement" },
+          { value: "500+", label: "Model answers" },
+          { value: "AI", label: "Instant feedback" }
+        ]
+      }
+    ]
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2" />
+        <line x1="12" y1="18" x2="12" y2="18.01" />
+      </svg>
+    ),
+    title: "24x7 Learning App Integration",
+    description: "Seamless access to recorded lectures, study material, tests, and live sessions — anytime, anywhere through our dedicated learning app.",
+    color: "#059669",
+    detailTitle: "24x7 Learning App",
+    detailTagline: "Your Classroom in Your Pocket.",
+    detailContent: [
+      {
+        heading: "Features",
+        text: "Our mobile-first learning app brings the entire classroom experience to your fingertips. Whether you're commuting, at home, or on a break — your preparation never stops."
+      },
+      {
+        heading: "What's Inside",
+        bullets: [
+          "HD recorded lectures with speed control (0.5x to 2x) and bookmarks",
+          "Downloadable study material in PDF — read offline anytime",
+          "Live class integration with real-time doubt-clearing chat",
+          "Push notifications for class reminders, test schedules, and daily quizzes",
+          "Dark mode, note-taking, and progress tracking built in"
+        ]
+      },
+      {
+        heading: "Usage Stats",
+        stats: [
+          { value: "50K+", label: "App downloads" },
+          { value: "4.8★", label: "Play Store rating" },
+          { value: "24/7", label: "Access anytime" }
+        ]
+      }
+    ]
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="10" rx="2" />
+        <circle cx="12" cy="5" r="3" />
+        <path d="M7 22v-1a5 5 0 0 1 10 0v1" />
+      </svg>
+    ),
+    title: "AI-Powered Doubt Clearing Bot",
+    description: "Get instant, accurate answers to your academic doubts 24/7 powered by advanced AI — no waiting, no delays in your preparation.",
+    color: "#dc2626",
+    detailTitle: "AI Doubt Clearing Bot",
+    detailTagline: "Ask Anything. Get Answers Instantly.",
+    detailContent: [
+      {
+        heading: "How It Works",
+        text: "Our AI bot is trained on the complete UPSC, PCS, SSC, and NCERT syllabus. Simply type your doubt in natural language — the bot understands context, provides accurate explanations, and cites sources."
+      },
+      {
+        heading: "Capabilities",
+        bullets: [
+          "Understands questions in Hindi and English — type naturally",
+          "Provides explanations with relevant examples and diagrams",
+          "Cites NCERT chapters, standard books, and PYQ references",
+          "Escalates complex doubts to human mentors automatically",
+          "Available 24/7 — no waiting for office hours"
+        ]
+      },
+      {
+        heading: "Performance",
+        stats: [
+          { value: "95%", label: "Accuracy rate" },
+          { value: "<3s", label: "Response time" },
+          { value: "1M+", label: "Doubts resolved" }
+        ]
+      }
+    ]
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 3v18h18" />
+        <path d="m7 16 4-8 4 5 4-7" />
+      </svg>
+    ),
+    title: "Performance Metrics Portal",
+    description: "Track your progress with detailed analytics — score trends, topic-wise accuracy, rank predictions, and personalized improvement roadmaps.",
+    color: "#b45309",
+    detailTitle: "Performance Metrics Portal",
+    detailTagline: "Data-Driven Preparation. Smarter Results.",
+    detailContent: [
+      {
+        heading: "Your Dashboard",
+        text: "Every test, every quiz, every practice session — all tracked and analyzed. Our portal transforms your raw data into actionable insights so you know exactly where to focus."
+      },
+      {
+        heading: "Analytics You Get",
+        bullets: [
+          "Score trends over time with improvement trajectory charts",
+          "Topic-wise accuracy heatmaps — instantly spot weak areas",
+          "All India rank predictions based on test performance",
+          "Time-per-question analysis to optimize exam strategy",
+          "AI-generated weekly study plans based on your performance gaps"
+        ]
+      },
+      {
+        heading: "Impact",
+        stats: [
+          { value: "92%", label: "Students improved" },
+          { value: "200+", label: "Data points tracked" },
+          { value: "AI", label: "Personalized plans" }
+        ]
+      }
+    ]
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+    ),
+    title: "Mentorship Chatroom",
+    description: "Direct access to mentors and top rankers through private chatrooms for strategy discussions, motivation, and exam-day guidance.",
+    color: "#4338ca",
+    detailTitle: "Mentorship Chatroom",
+    detailTagline: "Learn from Those Who've Been There.",
+    detailContent: [
+      {
+        heading: "What You Get",
+        text: "Our private chatrooms connect you directly with IAS/IPS officers, top rankers, and senior faculty members. Get personalized advice, motivation, and insider strategies that textbooks can't teach."
+      },
+      {
+        heading: "Chatroom Features",
+        bullets: [
+          "1-on-1 private mentorship sessions with selected IAS/PCS officers",
+          "Group strategy rooms moderated by subject experts",
+          "Weekly AMA (Ask Me Anything) sessions with recent toppers",
+          "Interview preparation mock sessions and personality development tips",
+          "Peer study groups with batch-mates for collaborative learning"
+        ]
+      },
+      {
+        heading: "Mentor Network",
+        stats: [
+          { value: "30+", label: "IAS/IPS mentors" },
+          { value: "100+", label: "Top rankers" },
+          { value: "Daily", label: "Active sessions" }
+        ]
+      }
+    ]
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+        <path d="M18 14h-8" />
+        <path d="M15 18h-5" />
+        <path d="M10 6h8v4h-8V6Z" />
+      </svg>
+    ),
+    title: 'Daily "Snippet" News',
+    description: "Curated daily current affairs in bite-sized snippets — optimized for prelims and mains, delivered every morning to keep you exam-ready.",
+    color: "#0f766e",
+    detailTitle: 'Daily "Snippet" News',
+    detailTagline: "Stay Informed. Stay Ahead.",
+    detailContent: [
+      {
+        heading: "What Are Snippets?",
+        text: "Every morning at 7 AM, our editorial team curates the most exam-relevant news into concise 'snippets' — each just 3-4 lines with tags for Prelims/Mains relevance, linked syllabus topics, and related PYQs."
+      },
+      {
+        heading: "How It Helps",
+        bullets: [
+          "Prelims-focused MCQs generated from each snippet for instant practice",
+          "Mains linkages — every snippet mapped to GS Paper topics",
+          "Monthly compilations auto-generated for revision before exams",
+          "Audio snippets for listening during commute (5-min daily podcast)",
+          "Topic-wise archives searchable by keyword, date, or syllabus area"
+        ]
+      },
+      {
+        heading: "Coverage",
+        stats: [
+          { value: "365", label: "Days a year" },
+          { value: "20+", label: "Snippets daily" },
+          { value: "98%", label: "Prelims coverage" }
+        ]
+      }
+    ]
+  },
+];
+
 const HomePage = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const navigate = useNavigate();
+  const [showCounselling, setShowCounselling] = useState(false);
+  const [visibleFeatures, setVisibleFeatures] = useState(new Set());
+  const [heroSlide, setHeroSlide] = useState(0);
+  const [featureDetail, setFeatureDetail] = useState(null);
+  const featuresRef = useRef(null);
+  const heroSlideTimerRef = useRef(null);
 
-  const goToSlide = useCallback(
-    (index) => {
-      if (isTransitioning) return;
-      setIsTransitioning(true);
-      setCurrentSlide(index);
-      setTimeout(() => setIsTransitioning(false), 700);
-    },
-    [isTransitioning]
-  );
-
-  const nextSlide = useCallback(() => {
-    goToSlide((currentSlide + 1) % slides.length);
-  }, [currentSlide, goToSlide]);
-
-  const prevSlide = useCallback(() => {
-    goToSlide((currentSlide - 1 + slides.length) % slides.length);
-  }, [currentSlide, goToSlide]);
-
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, [nextSlide]);
+  // Slides shown in the hero card slider (pick 3 features to showcase)
+  const heroCards = [features[0], features[1], features[3], features[4], features[6]];
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // Auto-rotate hero feature cards
+  const nextHeroSlide = useCallback(() => {
+    setHeroSlide((prev) => (prev + 1) % heroCards.length);
+  }, [heroCards.length]);
+
+  useEffect(() => {
+    heroSlideTimerRef.current = setInterval(nextHeroSlide, 3500);
+    return () => clearInterval(heroSlideTimerRef.current);
+  }, [nextHeroSlide]);
+
+  // Intersection Observer for feature cards
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = entry.target.getAttribute("data-index");
+            setVisibleFeatures((prev) => new Set([...prev, index]));
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    const cards = document.querySelectorAll(".hp-feature-card");
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Close feature detail
+  const closeFeatureDetail = () => setFeatureDetail(null);
+
   return (
-    <section className="hero-section" id="home">
-      {/* Background Slider */}
-      <div className="hero-slider">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`hero-slide ${index === currentSlide ? "hero-slide-active" : ""}`}
-          >
-            <img src={slide.image} alt={slide.title} className="hero-slide-img" />
-          </div>
-        ))}
-        <div className="hero-overlay"></div>
-      </div>
-
-      {/* Hero Content */}
-      <div className="hero-content">
-        <div className="hero-text-wrapper">
-          {/* Badge */}
-          <div className="hero-badge">
-            <span className="hero-badge-dot"></span>
-            Admissions Open 2025-26
-          </div>
-
-          {/* Title */}
-          <h1 className="hero-title" key={`title-${currentSlide}`}>
-            {slides[currentSlide].title}{" "}
-            <span className="hero-title-highlight">{slides[currentSlide].highlight}</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="hero-subtitle" key={`sub-${currentSlide}`}>
-            {slides[currentSlide].subtitle}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="hero-cta-group">
-            <button
-              className="hero-cta-primary"
-              onClick={() => scrollToSection("courses")}
-              id="hero-explore-courses"
-            >
-              Explore Courses
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </button>
-            <button
-              className="hero-cta-secondary"
-              onClick={() => scrollToSection("courses")}
-              id="hero-free-counselling"
-            >
-              Free Counselling
-            </button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="hero-trust">
-            <div className="hero-trust-avatars">
-              <div className="hero-avatar" style={{ background: "#3b82f6" }}>R</div>
-              <div className="hero-avatar" style={{ background: "#10b981" }}>S</div>
-              <div className="hero-avatar" style={{ background: "#f59e0b" }}>A</div>
-              <div className="hero-avatar" style={{ background: "#8b5cf6" }}>P</div>
-            </div>
-            <p className="hero-trust-text">
-              <strong>2,500+</strong> students currently enrolled
-            </p>
-          </div>
-        </div>
-
-        {/* Slide Navigation */}
-        <div className="hero-slide-nav">
-          <div className="hero-slide-counter">
-            <span className="hero-counter-current">{String(currentSlide + 1).padStart(2, "0")}</span>
-            <span className="hero-counter-sep">/</span>
-            <span className="hero-counter-total">{String(slides.length).padStart(2, "0")}</span>
-          </div>
-          <div className="hero-slide-dots">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                className={`hero-dot ${i === currentSlide ? "hero-dot-active" : ""}`}
-                onClick={() => goToSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                id={`hero-dot-${i}`}
-              />
+    <>
+      {/* ===== HERO SECTION ===== */}
+      <section className="hp-hero" id="home">
+        {/* Decorative background elements */}
+        <div className="hp-hero-bg">
+          <div className="hp-hero-grid"></div>
+          <div className="hp-hero-glow hp-hero-glow-1"></div>
+          <div className="hp-hero-glow hp-hero-glow-2"></div>
+          <div className="hp-hero-float hp-hero-float-1"></div>
+          <div className="hp-hero-float hp-hero-float-2"></div>
+          <div className="hp-hero-float hp-hero-float-3"></div>
+          {/* Particle dots */}
+          <div className="hp-hero-particles">
+            {[...Array(6)].map((_, i) => (
+              <span key={i} className="hp-particle" style={{ "--p-i": i }}></span>
             ))}
           </div>
-          <div className="hero-slide-arrows">
-            <button className="hero-arrow" onClick={prevSlide} aria-label="Previous" id="hero-prev">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-            <button className="hero-arrow" onClick={nextSlide} aria-label="Next" id="hero-next">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
+        </div>
+
+        <div className="hp-hero-layout">
+          {/* Left: Text Content */}
+          <div className="hp-hero-left">
+            {/* Badge */}
+            <div className="hp-hero-badge">
+              <span className="hp-hero-badge-dot"></span>
+              Admissions Open 2025-26
+            </div>
+
+            {/* Headline */}
+            <h1 className="hp-hero-title">
+              Your Gateway to{" "}
+              <span className="hp-hero-highlight">Civil Services</span>{" "}
+              Excellence
+            </h1>
+
+            {/* Subtitle */}
+            <p className="hp-hero-subtitle">
+              India's most trusted coaching institute with 15+ years of proven
+              excellence. We've guided 500+ selections across UPSC, State PCS,
+              SSC, NEET, JEE and Judiciary examinations.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="hp-hero-ctas">
+              <button
+                className="hp-cta-primary"
+                onClick={() => scrollToSection("courses")}
+                id="hero-explore-courses"
+              >
+                Explore Courses
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+              <button
+                className="hp-cta-secondary"
+                onClick={() => setShowCounselling(true)}
+                id="hero-free-counselling"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                AI Counselling
+              </button>
+            </div>
+
+            {/* Trust line */}
+            <div className="hp-hero-trust">
+              <div className="hp-trust-checks">
+                <span className="hp-trust-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  Expert Faculty
+                </span>
+                <span className="hp-trust-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  Proven Results
+                </span>
+                <span className="hp-trust-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  Personalized Mentoring
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Feature Card Slider */}
+          <div className="hp-hero-right">
+            <div className="hp-hero-slider-wrap">
+              <div className="hp-hero-slider-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
+                What Sets Us Apart
+              </div>
+              <div className="hp-hero-cards-stack">
+                {heroCards.map((card, i) => {
+                  const offset = ((i - heroSlide) % heroCards.length + heroCards.length) % heroCards.length;
+                  const isActive = offset === 0;
+                  const isNext = offset === 1;
+                  const isPrev = offset === heroCards.length - 1;
+                  return (
+                    <div
+                      key={i}
+                      className={`hp-hero-fcard ${isActive ? "hp-hero-fcard-active" : ""} ${isNext ? "hp-hero-fcard-next" : ""} ${isPrev ? "hp-hero-fcard-prev" : ""} ${offset > 1 && offset < heroCards.length - 1 ? "hp-hero-fcard-hidden" : ""}`}
+                    >
+                      <div className="hp-hero-fcard-icon" style={{ background: `${card.color}15`, color: card.color }}>
+                        {card.icon}
+                      </div>
+                      <h4 className="hp-hero-fcard-title">{card.title}</h4>
+                      <p className="hp-hero-fcard-desc">{card.description}</p>
+                      <div className="hp-hero-fcard-bar" style={{ background: card.color }}></div>
+                    </div>
+                  );
+                })}
+              </div>
+              {/* Slider dots */}
+              <div className="hp-hero-slider-dots">
+                {heroCards.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`hp-hero-sdot ${i === heroSlide ? "hp-hero-sdot-active" : ""}`}
+                    onClick={() => setHeroSlide(i)}
+                    aria-label={`Feature ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Progress Bar */}
-      <div className="hero-progress">
-        <div
-          className="hero-progress-bar"
-          style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
-        ></div>
-      </div>
+        {/* Stats Bar */}
+        <div className="hp-stats-bar">
+          {stats.map((stat, i) => (
+            <div className="hp-stat" key={i}>
+              <span className="hp-stat-value">{stat.value}</span>
+              <span className="hp-stat-label">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Stats Bar */}
-      <div className="hero-stats-bar">
-        {stats.map((stat, i) => (
-          <div className="hero-stat" key={i}>
-            <span className="hero-stat-value">{stat.value}</span>
-            <span className="hero-stat-label">{stat.label}</span>
+      {/* ===== WHY CHOOSE US SECTION ===== */}
+      <section className="hp-features" id="why-choose-us" ref={featuresRef}>
+        {/* Decorative bg */}
+        <div className="hp-features-deco">
+          <div className="hp-features-deco-circle hp-features-deco-1"></div>
+          <div className="hp-features-deco-circle hp-features-deco-2"></div>
+        </div>
+
+        <div className="hp-features-header">
+          <span className="hp-features-badge">Our Edge</span>
+          <h2 className="hp-features-title">Why Choose Us</h2>
+          <div className="hp-features-title-divider">
+            <span></span><span></span><span></span>
           </div>
-        ))}
-      </div>
-    </section>
+          <p className="hp-features-subtitle">
+            Cutting-edge tools and methodologies that set us apart from every
+            other coaching institute in India.
+          </p>
+        </div>
+
+        <div className="hp-features-grid">
+          {features.map((feat, i) => (
+            <div
+              className={`hp-feature-card ${visibleFeatures.has(String(i)) ? "hp-feature-visible" : ""}`}
+              key={i}
+              data-index={i}
+              style={{ "--feat-color": feat.color, "--feat-delay": `${i * 0.1}s` }}
+              onClick={() => setFeatureDetail(feat)}
+            >
+              <div className="hp-feature-number">{String(i + 1).padStart(2, "0")}</div>
+              <div className="hp-feature-icon-wrap">
+                <div className="hp-feature-icon" style={{ background: `${feat.color}12`, color: feat.color }}>
+                  {feat.icon}
+                </div>
+                <div className="hp-feature-icon-ring" style={{ borderColor: `${feat.color}20` }}></div>
+              </div>
+              <h3 className="hp-feature-name">{feat.title}</h3>
+              <p className="hp-feature-desc">{feat.description}</p>
+              <div className="hp-feature-cta" style={{ color: feat.color }}>
+                Learn more
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+              <div className="hp-feature-accent" style={{ background: `linear-gradient(135deg, ${feat.color}, ${feat.color}88)` }}></div>
+              <div className="hp-feature-glow" style={{ background: feat.color }}></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== FEATURE DETAIL MODAL ===== */}
+      {featureDetail && (
+        <div className="hp-fd-overlay" onClick={closeFeatureDetail}>
+          <div className="hp-fd-modal" onClick={(e) => e.stopPropagation()}>
+            {/* Close */}
+            <button className="hp-fd-close" onClick={closeFeatureDetail} aria-label="Close">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Header */}
+            <div className="hp-fd-header" style={{ background: `linear-gradient(135deg, ${featureDetail.color}, ${featureDetail.color}cc)` }}>
+              <div className="hp-fd-header-icon">
+                {featureDetail.icon}
+              </div>
+              <h2 className="hp-fd-title">{featureDetail.detailTitle}</h2>
+              <p className="hp-fd-tagline">{featureDetail.detailTagline}</p>
+            </div>
+
+            {/* Body */}
+            <div className="hp-fd-body">
+              {featureDetail.detailContent.map((section, si) => (
+                <div className="hp-fd-section" key={si}>
+                  <h3 className="hp-fd-section-title">{section.heading}</h3>
+                  {section.text && <p className="hp-fd-section-text">{section.text}</p>}
+                  {section.bullets && (
+                    <ul className="hp-fd-bullets">
+                      {section.bullets.map((b, bi) => (
+                        <li key={bi}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={featureDetail.color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {section.stats && (
+                    <div className="hp-fd-stats">
+                      {section.stats.map((s, si2) => (
+                        <div className="hp-fd-stat" key={si2}>
+                          <span className="hp-fd-stat-value" style={{ color: featureDetail.color }}>{s.value}</span>
+                          <span className="hp-fd-stat-label">{s.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Footer CTA */}
+            <div className="hp-fd-footer">
+              <button
+                className="hp-fd-enroll"
+                style={{ background: `linear-gradient(135deg, ${featureDetail.color}, ${featureDetail.color}cc)` }}
+                onClick={() => { closeFeatureDetail(); scrollToSection("courses"); }}
+              >
+                Explore Our Courses
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* AI Counselling Modal */}
+      {showCounselling && (
+        <AICounselling onClose={() => setShowCounselling(false)} />
+      )}
+    </>
   );
 };
 
